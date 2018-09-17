@@ -1,7 +1,7 @@
 /*This is the js class extended form leaflet FeatureGroup class
 * This supports to produce dynamic grid with custom glyphs
-* This idea came from my MSc Software Engineering project's supervisor Dr Aidan Slingsby at City University London */
-
+* This idea came from my MSc Software Engineering project's supervisor Dr Aidan Slingsby at City University London
+* I would like to thanks to leaflet code examples and plugins that I learned a lot from them */
 
 DynamicGrid = L.DynamicGrid = L.FeatureGroup.extend({
 
