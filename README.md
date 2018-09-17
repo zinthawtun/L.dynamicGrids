@@ -4,9 +4,9 @@
 This a plug-in support library extended from Leaflet (https://leafletjs.com) producing dynamic grids to display data with custom glyphs on a map.
 This visualization idea is based on Dr. Aidan Slingsby's work, who is a researcher and lecturer in the giCentre at the City University of London.
 
-##Get Started 
+## Get Started 
 
-First, you must have leaflet installed and produced the map. Just go to leaflet documentation website and learn how to project a web map. 
+First, you must have leaflet installed and produced the map. Just go to [leaflet documentation website](https://leafletjs.com/index.html) and learn how to project a web map. 
 
 Example of producing a map,
 ```
@@ -16,7 +16,7 @@ let map = L.Map(<attribute_id>, {center: [<latitude>, <longitude>], zoom: <zooml
 
 After that, you should have a layer of map tile server to display a map on the browser.
 
-###Installation 
+### Installation 
 
 Firstly, you must [install Leaflet Library](https://leafletjs.com/download.html). 
 After this, you must download L.dynamicGrids from my github repo. 
@@ -47,7 +47,7 @@ Next, you must have to call the first dynamic grid cell by first grid adding fun
  markers.addGrid();
 ```
 
-##Options 
+## Options 
 
 | Options | value | Definition |
 | ------- | --- | --- |
@@ -58,12 +58,12 @@ Next, you must have to call the first dynamic grid cell by first grid adding fun
 | |obj.getMarkerInfo| This function can return cell-id, data-id and centroid of the marker point.|
 |style | css-stlye | You can change the style of the grids background color and opacity etc.|
 
-##SVG Icon 
+## SVG Icon 
 
 The L.dynamicGrid include pin.svg file. Whenever you would like to change the icon of your marker, you must give that svg image name as pin.svg.
 Currently, I am using a free beautiful icon is from [Smashicon](https://www.flaticon.com/authors/smashicons).
 
-##Examples 
+## Examples 
 
 Here is the [link](http://www.student.city.ac.uk/~acvt664/L.dynamicGrids/examples/) that I have made examples for usage of my L.dynamicGrid, D3js and Leaflet marker-cluster library plugin.
 
