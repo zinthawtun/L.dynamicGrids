@@ -67,6 +67,10 @@ Currently, I am using a free beautiful icon is from [Smashicon](https://www.flat
 
 Here is the [link](http://www.student.city.ac.uk/~acvt664/L.dynamicGrids/examples/) that I have made examples for usage of my L.dynamicGrid, D3js and Leaflet marker-cluster library plugin.
 
+##Reading the different types of files and Visualization 
+
+You can use D3 to make different custom glyphs on the map. You can use proj4Leaflet for different coordinate reference systems. 
+
 ## Acknowledge
 
 * [Dr Aidan Slingsby](https://www.city.ac.uk/people/academics/aidan-slingsby) - Lecturer in Visual and Analytic Computing at City University of London.

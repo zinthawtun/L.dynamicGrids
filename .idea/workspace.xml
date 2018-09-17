@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="495e6514-10dc-4ab8-be03-1675cb657552" name="Default Changelist" comment="" />
+    <list default="true" id="495e6514-10dc-4ab8-be03-1675cb657552" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/choropleth.html" beforeDir="false" afterPath="$PROJECT_DIR$/examples/choropleth.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/circles.html" beforeDir="false" afterPath="$PROJECT_DIR$/examples/circles.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/clusterPies.html" beforeDir="false" afterPath="$PROJECT_DIR$/examples/clusterPies.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/dgcWithLdnBorder.html" beforeDir="false" afterPath="$PROJECT_DIR$/examples/dgcWithLdnBorder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/dynamicGridPies.html" beforeDir="false" afterPath="$PROJECT_DIR$/examples/dynamicGridPies.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/examples/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/noClusterDonuts.html" beforeDir="false" afterPath="$PROJECT_DIR$/examples/noClusterDonuts.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/sampleCluster.html" beforeDir="false" afterPath="$PROJECT_DIR$/examples/sampleCluster.html" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -15,10 +26,11 @@
     <session id="-992275711">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.1" value="2" />
           <entry key="project.open.time.10" value="2" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.open.time.5" value="1" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -26,33 +38,33 @@
           <entry key="LICENSE" value="1" />
           <entry key="csv" value="4" />
           <entry key="geojson" value="3" />
-          <entry key="html" value="34" />
+          <entry key="html" value="42" />
           <entry key="js" value="9" />
-          <entry key="md" value="2" />
+          <entry key="md" value="3" />
           <entry key="svg" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="HTML" value="34" />
+          <entry key="HTML" value="42" />
           <entry key="JavaScript" value="9" />
-          <entry key="Markdown" value="1" />
+          <entry key="Markdown" value="2" />
           <entry key="PLAIN_TEXT" value="9" />
           <entry key="SVG" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="173" />
+          <entry key="html" value="175" />
           <entry key="js" value="112" />
-          <entry key="md" value="3082" />
+          <entry key="md" value="3306" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="173" />
+          <entry key="HTML" value="175" />
           <entry key="JavaScript" value="112" />
-          <entry key="Markdown" value="2977" />
+          <entry key="Markdown" value="3201" />
           <entry key="PLAIN_TEXT" value="105" />
         </counts>
       </usages-collector>
@@ -60,12 +72,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="465">
-                <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
+              <first_editor relative-caret-position="344">
+                <caret line="71" column="128" selection-start-line="71" selection-start-column="128" selection-end-line="71" selection-end-column="128" />
               </first_editor>
               <second_editor />
             </state>
@@ -73,12 +85,108 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/L.dynamicGrid.js">
+        <entry file="file://$PROJECT_DIR$/examples/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3615">
-              <caret line="244" column="112" selection-start-line="244" selection-start-column="36" selection-end-line="244" selection-end-column="112" />
+            <state relative-caret-position="363">
+              <caret line="81" column="20" lean-forward="true" selection-start-line="64" selection-start-column="3" selection-end-line="81" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/choropleth.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="23">
+              <caret line="60" selection-start-line="60" selection-end-line="60" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
+                <element signature="e#0#7#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/circles.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="302">
+              <caret line="81" column="20" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/dgcWithLdnBorder.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="274">
+              <caret line="87" column="20" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
+              <folding>
+                <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#2;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#4;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#5;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/dynamicGridPies.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
+              <folding>
+                <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#2;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#4;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#5;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/noClusterDonuts.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="80" column="20" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="20" />
+              <folding>
+                <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#2;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#4;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#5;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/examples/sampleCluster.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="395">
+              <caret line="82" column="20" selection-start-line="82" selection-start-column="20" selection-end-line="82" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/examples/clusterPies.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="359">
+              <caret line="86" column="20" selection-start-line="86" selection-start-column="20" selection-end-line="86" selection-end-column="20" />
+              <folding>
+                <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#2;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#3;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#4;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#5;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -110,15 +218,15 @@
         <option value="$PROJECT_DIR$/examples/simpleDynamicGrid.html" />
         <option value="$PROJECT_DIR$/examples/sampleDynamicGrid.html" />
         <option value="$PROJECT_DIR$/L.dynamicGrid.js" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/examples/index.html" />
         <option value="$PROJECT_DIR$/examples/choropleth.html" />
         <option value="$PROJECT_DIR$/examples/circles.html" />
         <option value="$PROJECT_DIR$/examples/clusterPies.html" />
         <option value="$PROJECT_DIR$/examples/dgcWithLdnBorder.html" />
         <option value="$PROJECT_DIR$/examples/dynamicGridPies.html" />
-        <option value="$PROJECT_DIR$/examples/index.html" />
         <option value="$PROJECT_DIR$/examples/noClusterDonuts.html" />
         <option value="$PROJECT_DIR$/examples/sampleCluster.html" />
-        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -200,17 +308,18 @@
       <workItem from="1537119514314" duration="10481000" />
       <workItem from="1537179127148" duration="824000" />
       <workItem from="1537181664113" duration="5831000" />
-      <workItem from="1537190354212" duration="579000" />
+      <workItem from="1537190354212" duration="1609000" />
+      <workItem from="1537196032909" duration="282000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17715000" />
+    <option name="totallyTimeSpent" value="19027000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1395" height="877" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2496361" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2496361" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -222,7 +331,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.3299363" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.3299363" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -271,67 +380,18 @@
     <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/choropleth.html">
+    <entry file="file://$PROJECT_DIR$/L.dynamicGrid.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="78" column="20" selection-start-line="78" selection-start-column="20" selection-end-line="78" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/circles.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="82" column="20" selection-start-line="82" selection-start-column="20" selection-end-line="82" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/dgcWithLdnBorder.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="87" column="20" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/clusterPies.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="86" column="20" selection-start-line="86" selection-start-column="20" selection-end-line="86" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/dynamicGridPies.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="81" column="20" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/sampleCluster.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="82" column="20" selection-start-line="82" selection-start-column="20" selection-end-line="82" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/noClusterDonuts.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="81" column="4" selection-start-line="81" selection-start-column="4" selection-end-line="81" selection-end-column="4" />
+        <state relative-caret-position="325">
+          <caret line="244" column="112" selection-start-line="244" selection-start-column="36" selection-end-line="244" selection-end-column="112" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="465">
-            <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
+          <first_editor relative-caret-position="344">
+            <caret line="71" column="128" selection-start-line="71" selection-start-column="128" selection-end-line="71" selection-end-column="128" />
           </first_editor>
           <second_editor />
         </state>
@@ -342,13 +402,95 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/L.dynamicGrid.js">
+    <entry file="file://$PROJECT_DIR$/examples/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3615">
-          <caret line="244" column="112" selection-start-line="244" selection-start-column="36" selection-end-line="244" selection-end-column="112" />
+        <state relative-caret-position="363">
+          <caret line="81" column="20" lean-forward="true" selection-start-line="64" selection-start-column="3" selection-end-line="81" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/choropleth.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="60" selection-start-line="60" selection-end-line="60" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
+            <element signature="e#0#7#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/circles.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="81" column="20" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/clusterPies.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="86" column="20" selection-start-line="86" selection-start-column="20" selection-end-line="86" selection-end-column="20" />
+          <folding>
+            <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#4;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#5;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/dgcWithLdnBorder.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="87" column="20" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
+          <folding>
+            <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#4;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#5;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/dynamicGridPies.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
+          <folding>
+            <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#4;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#5;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/noClusterDonuts.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="80" column="20" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="20" />
+          <folding>
+            <element signature="n#style#0;n#i#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#4;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#5;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/sampleCluster.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="82" column="20" selection-start-line="82" selection-start-column="20" selection-end-line="82" selection-end-column="20" />
         </state>
       </provider>
     </entry>
