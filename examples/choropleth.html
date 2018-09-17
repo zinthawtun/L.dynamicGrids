@@ -1,0 +1,226 @@
+<!--learned from https://leafletjs.com/examples/choropleth/ -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+          integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+          crossorigin=""/>
+
+    <link rel="stylesheet" href="src/main.css">
+
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+            integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+            crossorigin=""></script>
+
+    <script src="https://d3js.org/d3.v5.js"></script>
+
+    <script src="proj4/dist/proj4.js"></script>
+
+    <script src="proj4leaflet/src/proj4leaflet.js"></script>
+
+    <script src="src/customGlyphs.js"></script>
+
+    <script type="text/javascript"  src="menu.js"></script>
+
+    <title>Choropleth Map</title>
+</head>
+<body>
+
+<div id="contents">
+    <!--<div id="load"></div>-->
+    <div id="map">
+        <grid_tile></grid_tile>
+    </div>
+</div>
+
+<script>
+
+
+    //produce the map
+    let map = myMap.produce({
+        attribute_id: 'map',
+        lat: 51.5074, lon: 0.1278,
+        zoom: 10,
+
+    });
+
+    //tile map server
+    let tile1 = myTile.makeLayer({
+        name: 'OpenStreetMap',
+        link: 'http://openstreetmap.org',
+        server_url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        maxZoom: 18
+    });
+
+    tile1.addTo(map); // leaflet api to add tile layer to map
+
+    //map
+    let menu = L.control({position: 'topleft'});
+    menu.onAdd = function (map) {
+        let div = L.DomUtil.create('div', 'menu');
+        div.innerHTML = '<button onclick="myFunction()" class="menubutton">Examples</button>' +
+            '<div id="myMenu" class="menu-content">' +
+            '<a href="/L.dynamicGrids/examples">Sample Dynamic Grid</a>' +
+            '<a href="/L.dynamicGrids/examples/sampleCluster.html">Sample Cluster Markers</a>' +
+            '<a href="/L.dynamicGrids/examples/circles.html">Circles on Map</a>' +
+            '<a href="/L.dynamicGrids/examples/choropleth.html">Choropleth Map</a>' +
+            '<a href="/L.dynamicGrids/examples/noClusterDonuts.html">No Cluster Donuts</a>' +
+            '<a href="/L.dynamicGrids/examples/clusterPies.html">Cluster Pie Charts</a>' +
+            '<a href="/L.dynamicGrids/examples/dynamicGridPies.html">DynamicGrid Pie Charts</a>' +
+            '<a href="/L.dynamicGrids/examples/dgcWithLdnBorder.html">DynamicGrid Pies With London Area Border</a>' +
+            '</div>';
+        return div;
+    };
+    menu.addTo(map);
+
+    //adding leaflet original grid
+    LeafletGrid = L.GridLayer.extend({
+        createTile: function (coords) {
+            let tile = document.createElement('grid_tile');
+            tile.innerHTML = ["x" + coords.x, "y" + coords.y, coords.z].join(', ');
+            tile.style.outline = '1px solid navy';
+            var size = this.getTileSize();
+            console.log(coords.x);
+            return tile;
+        }
+    });
+
+
+    L.control.layers({"OSM": tile1}, {
+        "Leaflet Grid": OriginalGrid(),
+    }).addTo(map);
+
+    let svgLayer = mySVG.makeLayer();
+    map.addLayer(svgLayer);
+
+    let g = mySVG.selectLayer({
+        attribute_id: '#map',
+        layer: 'svg',
+        new_attribute: 'g'
+    });
+
+    //
+    function setColorChoice(d) {
+        return d > 700 ? '#530480' :
+            d > 600  ? '#0314bd' :
+                d > 500  ? '#2948e3' :
+                    d > 400  ? '#3e55fc' :
+                        d > 300   ? '#7e79fd' :
+                            d > 200   ? '#b0c7fe' :
+                                d > 100   ? '#effdff' :
+                                    '#daffbc';
+    }
+
+    function choroplethStyle(feature) {
+        return {
+            fillColor: setColorChoice(feature.properties.POPULATION),
+            weight: 1,
+            opacity: 0.5,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+
+    function highlight(e) {
+        var layer = e.target;
+
+        data.update(layer.feature.properties);
+
+        layer.setStyle({
+            weight: 5,
+            color: '#fef70f',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
+
+
+    }
+
+    function resetHighlight(e) {
+        x.resetStyle(e.target);
+        data.update();
+    }
+
+    function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+
+    }
+
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: highlight,
+            mouseout: resetHighlight,
+            click: zoomToFeature
+        });
+    }
+
+    var data = L.control();
+
+    data.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'data'); // create a div with a class "data"
+        this.update();
+        return this._div;
+    };
+
+    // method that we will use to update the control based on feature properties passed
+    data.update = function (properties) {
+        this._div.innerHTML = '<h4>London Population</h4>' +  (properties ?
+            '<b>' + properties.OA_SA + '</b><br />' + properties.POPULATION + ' people / Area'
+            : 'Select Area');
+    };
+
+    data.addTo(map);
+
+    var description = L.control({position: 'topright'});
+
+    description.onAdd = function (map) {
+
+        var div = L.DomUtil.create('div', 'data_description'),
+
+            range = [0, 100, 200, 300, 400, 500, 600, 700],
+
+            descriptions = ["Population"];
+
+        // loop through our density intervals and generate a description with a colored square for each interval
+        for (var i = 0; i < range.length; i++) {
+            div.innerHTML += '<h5>Population</h5>'+
+                '<i style="background:' + setColorChoice(range[i] + 1) + '"></i> ' +
+                range[i] + (range[i + 1] ? '&ndash;' + range[i + 1] + '<br>' : '+');
+        }
+
+        return div;
+    };
+
+    description.addTo(map);
+
+
+    let x;
+
+    /*For the multipolygon, British Coordinate Reference system is used and then, the projection method is used*/
+
+        d3.json("2011_OAC_london-simpl.geojson").then(function (geodata) {
+
+            proj4.defs("urn:ogc:def:crs:EPSG::27700", "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs");
+
+
+            //project the geojson map layer
+            x = L.Proj.geoJson(geodata, {
+                style: choroplethStyle,
+                onEachFeature: onEachFeature
+            }).addTo(map);
+
+        })
+
+</script>
+</body>
+</html>

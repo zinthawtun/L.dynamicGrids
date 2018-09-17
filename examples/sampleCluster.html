@@ -1,0 +1,133 @@
+<!--learned from https://github.com/Leaflet/Leaflet.markercluster-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+          integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+          crossorigin=""/>
+
+    <link rel="stylesheet" href="src/main.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.0/dist/MarkerCluster.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.0/dist/MarkerCluster.Default.css">
+
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+            integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+            crossorigin=""></script>
+
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.0/dist/leaflet.markercluster.js"></script>
+
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.0/dist/leaflet.markercluster-src.js"></script>
+
+    <script src="https://d3js.org/d3.v5.js"></script>
+
+    <script src="menu.js"></script>
+
+    <script src="src/customGlyphs.js"></script>
+
+    <title>Simple CLusters</title>
+</head>
+<body>
+
+<div id="contents">
+    <!--<div id="load"></div>-->
+    <div id="map">
+        <grid_tile></grid_tile>
+    </div>
+</div>
+
+<script>
+
+
+    //produce the map
+    let map = myMap.produce({
+        attribute_id: 'map',
+        lat: 51.5074, lon: 0.1278,
+        zoom: 10,
+
+    });
+
+    //tile map server
+    let tile1 = myTile.makeLayer({
+        name: 'OpenStreetMap',
+        link: 'http://openstreetmap.org',
+        server_url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        maxZoom: 18
+    });
+
+    tile1.addTo(map); // leaflet api to add tile layer to map
+
+    //map
+    let menu = L.control({position: 'topleft'});
+    menu.onAdd = function (map) {
+        let div = L.DomUtil.create('div', 'menu');
+        div.innerHTML = '<button onclick="myFunction()" class="menubutton">Examples</button>' +
+            '<div id="myMenu" class="menu-content">' +
+            '<a href="/L.dynamicGrids/examples">Sample Dynamic Grid</a>' +
+            '<a href="/L.dynamicGrids/examples/sampleCluster.html">Sample Cluster Markers</a>' +
+            '<a href="/L.dynamicGrids/examples/circles.html">Circles on Map</a>' +
+            '<a href="/L.dynamicGrids/examples/choropleth.html">Choropleth Map</a>' +
+            '<a href="/L.dynamicGrids/examples/noClusterDonuts.html">No Cluster Donuts</a>' +
+            '<a href="/L.dynamicGrids/examples/clusterPies.html">Cluster Pie Charts</a>' +
+            '<a href="/L.dynamicGrids/examples/dynamicGridPies.html">DynamicGrid Pie Charts</a>' +
+            '<a href="/L.dynamicGrids/examples/dgcWithLdnBorder.html">DynamicGrid Pies With London Area Border</a>' +
+            '</div>';
+        return div;
+    };
+    menu.addTo(map);
+
+    //adding leaflet original grid
+    OriginalGrid = function (opts) {
+        return new LeafletGrid(opts);
+    };
+
+    let markers = L.markerClusterGroup({chunkedLoading: true});
+
+    let markerList = [];
+
+    d3.csv("london_demographics.csv").then(function (data) {
+
+
+        data.forEach(function (d) {
+
+            let title = d.OA;
+
+            d.LatLng = new L.LatLng(d.lat, d.lon);
+
+            var marker = myGlyphs.addClusterMarkers({
+                latlon: d.LatLng,
+                title: title
+            }).bindPopup(
+                '<strong>Total Population: '+d.Total_Population+'</strong><br>' +
+                '<strong>Total Households: '+d.Total_Households+'</strong><br>' +
+                '<strong>Total Dwellings: '+d.Total_Dwellings+'</strong><br>' +
+                '<strong>Total Household Spaces: '+d.Total_Household_Spaces+'</strong><br>' +
+                '<strong>Total Population 16 and over: '+d.Total_Population_16_and_over+'</strong><br>' +
+                '<strong>Total Popilation 16 to 74: '+d.Total_Population_16_to_74+'</strong><br>'
+            ).openPopup();
+
+            markerList.push(marker);
+
+        });
+
+        //put marker array list to cluster layer
+        markers.addLayers(markerList);
+        map.addLayer(markers);
+
+    });
+
+    //add control layer
+    L.control.layers({"OSM": tile1}, {
+        "Leaflet Grid": OriginalGrid(),
+        "clusterMarker": markers,
+    }).addTo(map);
+
+</script>
+</body>
+</html>

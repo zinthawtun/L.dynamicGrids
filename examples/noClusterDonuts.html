@@ -1,0 +1,217 @@
+<!--learned from http://bl.ocks.org/d3noob/9267535 to mark circles on the map and d3 pie documentation -->
+<!doctype html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport"
+                  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+                  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+                  crossorigin=""/>
+
+            <link rel="stylesheet" href="src/main.css">
+
+            <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+                    integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+                    crossorigin=""></script>
+
+
+            <script src="https://d3js.org/d3.v5.js"></script>
+
+            <script src="menu.js"></script>
+
+            <script src="src/customGlyphs.js"></script>
+
+            <script src="src/L.dynamicGrid.js"></script>
+
+            <title>No Cluster Donuts</title>
+        </head>
+<body>
+
+<div id="contents">
+    <!--<div id="load"></div>-->
+    <div id="map">
+        <grid_tile>
+            <div id="container"></div>
+        </grid_tile>
+    </div>
+</div>
+
+<script>
+
+
+
+    //produce the map
+    let map = myMap.produce({
+        attribute_id: 'map',
+        lat: 51.5074, lon: 0.1278,
+        zoom: 10,
+
+    });
+
+    //tile map server
+    let tile1 = myTile.makeLayer({
+        name: 'OpenStreetMap',
+        link: 'http://openstreetmap.org',
+        server_url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        maxZoom: 18
+    });
+
+    tile1.addTo(map); // leaflet api to add tile layer to map
+
+    //map
+    let menu = L.control({position: 'topleft'});
+    menu.onAdd = function (map) {
+        let div = L.DomUtil.create('div', 'menu');
+        div.innerHTML = '<button onclick="myFunction()" class="menubutton">Examples</button>' +
+            '<div id="myMenu" class="menu-content">' +
+            '<a href="/L.dynamicGrids/examples">Sample Dynamic Grid</a>' +
+            '<a href="/L.dynamicGrids/examples/sampleCluster.html">Sample Cluster Markers</a>' +
+            '<a href="/L.dynamicGrids/examples/circles.html">Circles on Map</a>' +
+            '<a href="/L.dynamicGrids/examples/choropleth.html">Choropleth Map</a>' +
+            '<a href="/L.dynamicGrids/examples/noClusterDonuts.html">No Cluster Donuts</a>' +
+            '<a href="/L.dynamicGrids/examples/clusterPies.html">Cluster Pie Charts</a>' +
+            '<a href="/L.dynamicGrids/examples/dynamicGridPies.html">DynamicGrid Pie Charts</a>' +
+            '<a href="/L.dynamicGrids/examples/dgcWithLdnBorder.html">DynamicGrid Pies With London Area Border</a>' +
+            '</div>';
+        return div;
+    };
+    menu.addTo(map);
+
+    //leaflet grid
+    OriginalGrid = function (opts) {
+        return new LeafletGrid(opts);
+    };
+
+    //add an svg layer
+    let svgLayer = mySVG.makeLayer(); //
+    map.addLayer(svgLayer);
+
+    //select svg layer
+    let g = mySVG.selectLayer({
+        attribute_id: '#map',
+        layer: 'svg',
+        new_attribute: 'g'
+    });
+
+    let radius = 30;
+
+    let arc = d3.arc()
+        .innerRadius(20) //for donut pies
+        .outerRadius(radius);
+
+    let pie = d3.pie()
+        .sort(null)
+        .value(function(d) { return d; });
+
+
+    //color choice d3 API function
+    const color = d3.schemeCategory10;
+
+    //load the data
+    d3.csv("london_demographics.csv").then(function (data) {
+
+        data.forEach(function (d) {
+
+            //set latlan
+            d.LatLng = new L.LatLng(d.lat, d.lon);
+
+
+        });
+
+        //get svg
+        let points = g.selectAll("g")
+            .data(data)
+            .enter()
+            .append("g")
+            .attr("class","pies");
+
+        //for each pie
+        let pies = points.selectAll(".pies")
+            .data(function(d) { return pie([
+                d.Total_Population,
+                d.Total_Households,
+                d.Total_Dwellings,
+                d.Total_Household_Spaces,
+                d.Total_Population_16_and_over,
+                d.Total_Population_16_to_74
+            ]);})
+            .enter()
+            .append('g')
+            .attr('class','arc');
+
+        //add path
+        pies.append("path")
+            .attr('d',arc)
+            .attr("fill",function(d,i){
+                return color[i+1];
+            });
+
+        //create div icons
+        let myIcon = L.divIcon({
+            html: points,
+            className: 'my-div-icon'
+        });
+
+        //select all pies
+        d3.selectAll(".pies").each(function() {
+            console.log(d3.select(this).node().tagName);
+        });
+
+        //events
+        map.on("zoom", update);
+        update();
+
+        //update the screen
+        function update() {
+            points.attr("transform",
+                function(d) {
+
+                    return "translate("+
+                        map.latLngToLayerPoint(d.LatLng).x +","+
+                        map.latLngToLayerPoint(d.LatLng).y +")";
+
+                }
+            )
+        }
+
+        // console.log(points); testing
+
+    });
+
+    //add description
+    let description = L.control({position: 'bottomright'});
+
+    description.onAdd = function (map) {
+
+        let div = L.DomUtil.create('div', 'data_description');
+
+        // loop through our density intervals and generate a description with a colored square for each interval
+
+        div.innerHTML += '<h5>Bar Chart Description</h5>'+
+
+            '<i style="background:' + color[ 1] + '"></i>Total Population <br>'+
+            '<i style="background:' + color[ 2] + '"></i>Total Households <br>'+
+            '<i style="background:' + color[ 3] + '"></i>Total Dwellings  <br>'+
+            '<i style="background:' + color[ 4] + '"></i>Total Household Spaces <br>' +
+            '<i style="background:' + color[ 5] + '"></i>Total Total Population 16 and over <br>' +
+            '<i style="background:' + color[ 6] + '"></i>Total Population 16 to 74<br>';
+
+        return div;
+    };
+
+    description.addTo(map);
+
+    //add control layer
+    L.control.layers({"OSM": tile1}, {
+        "Leaflet Grid": OriginalGrid(),
+    }).addTo(map);
+
+
+
+</script>
+
+</body>
+</html>

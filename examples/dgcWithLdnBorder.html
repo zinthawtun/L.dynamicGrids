@@ -1,0 +1,320 @@
+<!--learned from leaflet virtual grid and cluster markers from leaflet plugins-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+          integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+          crossorigin=""/>
+
+    <link rel="stylesheet" href="src/main.css">
+
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+            integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+            crossorigin=""></script>
+
+    <script src="https://d3js.org/d3.v5.js"></script>
+
+    <script src="menu.js"></script>
+
+    <script src="proj4/dist/proj4.js"></script>
+
+    <script src="proj4leaflet/src/proj4leaflet.js"></script>
+
+    <script src="DataConnect/dataConnect.js"></script>
+
+    <script src="src/customGlyphs.js"></script>
+
+    <script src="src/L.dynamicGrid.js"></script>
+
+
+
+    <title>Dynamic GridMap</title>
+</head>
+<body>
+
+<div id="contents">
+    <!--<div id="load"></div>-->
+    <div id="map">
+        <grid_tile>
+            <div id="container"></div>
+        </grid_tile>
+    </div>
+</div>
+
+<script>
+
+
+
+    //produce the map
+    let map = myMap.produce({
+        attribute_id: 'map',
+        lat: 51.5074, lon: 0.1278,
+        zoom: 10,
+
+    });
+
+    //tile map server
+    let tile1 = myTile.makeLayer({
+        name: 'OpenStreetMap',
+        link: 'http://openstreetmap.org',
+        server_url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        maxZoom: 18
+    });
+
+    tile1.addTo(map); // leaflet api to add tile layer to map
+
+    //map
+    let menu = L.control({position: 'topleft'});
+    menu.onAdd = function (map) {
+        let div = L.DomUtil.create('div', 'menu');
+        div.innerHTML = '<button onclick="myFunction()" class="menubutton">Examples</button>' +
+            '<div id="myMenu" class="menu-content">' +
+            '<a href="/L.dynamicGrids/examples">Sample Dynamic Grid</a>' +
+            '<a href="/L.dynamicGrids/examples/sampleCluster.html">Sample Cluster Markers</a>' +
+            '<a href="/L.dynamicGrids/examples/circles.html">Circles on Map</a>' +
+            '<a href="/L.dynamicGrids/examples/choropleth.html">Choropleth Map</a>' +
+            '<a href="/L.dynamicGrids/examples/noClusterDonuts.html">No Cluster Donuts</a>' +
+            '<a href="/L.dynamicGrids/examples/clusterPies.html">Cluster Pie Charts</a>' +
+            '<a href="/L.dynamicGrids/examples/dynamicGridPies.html">DynamicGrid Pie Charts</a>' +
+            '<a href="/L.dynamicGrids/examples/dgcWithLdnBorder.html">DynamicGrid Pies With London Area Border</a>' +
+            '</div>';
+        return div;
+    };
+    menu.addTo(map);
+
+
+    //leaflet grid
+    OriginalGrid = function (opts) {
+        return new LeafletGrid(opts);
+    };
+
+    //add an svg layer
+    let svgLayer = mySVG.makeLayer(); //
+    map.addLayer(svgLayer);
+
+    //select svg layer
+    let g = mySVG.selectLayer({
+        attribute_id: '#map',
+        layer: 'svg',
+        new_attribute: 'g'
+    });
+
+    //select color
+    const color = d3.schemeCategory10;
+
+    //style of overlay layer
+    function broderStyle(feature) {
+        return {
+            weight: 0.5,
+            color: 'black',
+            fillOpacity: 0.1,
+        };
+    }
+
+    //load data
+    /*For the multipolygon, British Coordinate Reference system is used and then, the projection method is used*/
+    let geoborder;
+
+    d3.json("2011_OAC_london-simpl.geojson").then(function (geodata) {
+
+        proj4.defs("urn:ogc:def:crs:EPSG::27700", "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs");
+
+
+        //project the geojson map layer
+        geoborder = L.Proj.geoJson(geodata, {
+            style: broderStyle,
+        }).addTo(map);
+
+
+
+    d3.csv("new_data.csv").then(function (data) {
+
+
+        let markerList = [];  //to put markers into array
+
+        data.forEach(function (d) {
+
+            d.LatLng = new L.LatLng(d.lat, d.lon);
+
+            getMarker(d); //call this to create marker layer
+        });
+
+        function getMarker(d){
+
+            let marker = L.marker(d.LatLng, {id: d.OA});
+
+
+            markerList.push(marker);
+
+        }
+
+
+        //Call dynamic grid API
+        let markers = L.dynamicGrid({
+            gridSize: 80,
+            M_data: markerList,
+            customIconFun: createPieIcon,
+        }).addTo(map);
+
+        markers.addGrid(); //this will make the first grid on the screen
+
+
+        function createPieIcon(e){    // custom icon create function
+
+            w = 55,
+                h = 55,
+                r = w / 2, //radius
+                strokeW = 1,
+                position = (r + strokeW) * 2;
+
+            let  Icon;
+
+            let info = e.getMarkerInfo();
+
+            if(!info){
+                Icon = L.icon({
+                    iconUrl: 'pin.svg',  // beautiful icon is from Smashicon https://www.flaticon.com/authors/smashicons
+                    iconSize:     [40, 40], // size of the icon
+                });
+            }else{
+
+                //get the markerdata
+                let marker_data = getDataByMarker(info);
+
+                //get average data set
+                let dataset = averageData(marker_data);
+
+                let html_data = createPie({
+                    strokeW: strokeW,
+                    dataCol: info,
+                    dataset: dataset,
+                    w: w,
+                    h: h,
+                    pieClass: 'clusterPie',
+                });
+
+
+                //Create a new divIcon and assign the svg markup to the html property
+                Icon = new L.DivIcon({
+                    html: html_data,
+                    className: 'myPieIcon',
+                    iconSize: new L.Point(position, position)
+                });
+
+            }
+
+            return Icon;
+        }
+
+        function getDataByMarker(markerInfo){
+            let array_match = [];
+            markerInfo.forEach(function (d) {
+                const output = data.find(element => (element.OA === d.id));
+                array_match.push({
+                    id:output.OA,
+                    population:output.Total_Population,
+                    households:output.Total_Households,
+                    dwellings:output.Total_Dwellings,
+                    hh_space:output.Total_Household_Spaces,
+                    pp_16andover:output.Total_Population_16_and_over,
+                    pp_16to24:output.Total_Population_16_to_74
+                });
+            });
+
+            return array_match;
+
+        };
+
+    });
+
+    });
+
+
+    function averageData(marker_data) {
+
+        let averageDataset = [];
+
+        /*if theere are many markers in each cell area*/
+
+        if(marker_data.length>=1){
+
+            let totalPopulation = [],
+                totalHouseHolads = [],
+                totalDwellings = [],
+                totalHouseSpace = [],
+                totalPo16andover = [],
+                totalPo16to74 = [];
+
+
+            marker_data.forEach(function (d) {
+
+                totalPopulation.push(parseInt(d.population));
+                totalHouseHolads.push(parseInt(d.households));
+                totalDwellings.push(parseInt(d.dwellings));
+                totalHouseSpace.push(parseInt(d.hh_space));
+                totalPo16andover.push(parseInt(d.pp_16andover));
+                totalPo16to74.push(parseInt(d.pp_16to24));
+
+
+            });
+
+            const arrAvg = arr => parseInt(arr.reduce((a, b) => a + b, 0) / arr.length);
+
+            const avgPopulation = arrAvg(totalPopulation);
+            const avgHouseHolad = arrAvg(totalHouseHolads);
+            const avgDwellings = arrAvg(totalDwellings);
+            const avgHousSpace = arrAvg(totalHouseSpace);
+            const avgtotalPo16andover = arrAvg(totalPo16andover);
+            const avgtotalPo16to74 = arrAvg(totalPo16to74);
+
+            averageDataset = [avgPopulation, avgHouseHolad, avgDwellings, avgHousSpace, avgtotalPo16andover, avgtotalPo16to74];
+
+
+        }
+        /*if there is only marker data in each cell */
+        else{
+            averageDataset = [marker_data.population, marker_data.households, marker_data.dwellings, marker_data.hh_space, marker_data.pp_16andover, marker_data.pp_16to24];
+        }
+
+        return averageDataset;
+    }
+
+
+
+    var description = L.control({position: 'bottomright'});
+
+    description.onAdd = function (map) {
+
+        var div = L.DomUtil.create('div', 'data_description');
+
+        // loop through our density intervals and generate a description with a colored square for each interval
+
+        div.innerHTML += '<h5>Bar Chart Description</h5>'+
+
+            '<i style="background:' + color[ 1] + '"></i>Total Population <br>'+
+            '<i style="background:' + color[ 2] + '"></i>Total Households <br>'+
+            '<i style="background:' + color[ 3] + '"></i>Total Dwellings  <br>'+
+            '<i style="background:' + color[ 4] + '"></i>Total Household Spaces <br>' +
+            '<i style="background:' + color[ 5] + '"></i>Total Total Population 16 and over <br>' +
+            '<i style="background:' + color[ 6] + '"></i>Total Population 16 to 74<br>';
+
+        return div;
+    };
+
+    description.addTo(map);
+
+    //add control
+    L.control.layers({"OSM": tile1}, {
+        "Leaflet Grid": OriginalGrid(),
+    }).addTo(map);
+
+
+</script>
+
+</body>
+</html>

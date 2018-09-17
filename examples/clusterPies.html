@@ -1,0 +1,276 @@
+<!--learned from http://bl.ocks.org/gisminister/10001728 and got idea how to do pies with my data-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+          integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+          crossorigin=""/>
+
+    <link rel="stylesheet" href="src/main.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.0/dist/MarkerCluster.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.0/dist/MarkerCluster.Default.css">
+
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+            integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+            crossorigin=""></script>
+
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.0/dist/leaflet.markercluster.js"></script>
+
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.0/dist/leaflet.markercluster-src.js"></script>
+
+    <script src="https://d3js.org/d3.v5.js"></script>
+
+    <script src="menu.js"></script>
+
+    <script src="src/customGlyphs.js"></script>
+
+    <script src="src/L.dynamicGrid.js"></script>
+
+    <title>Cluster Pie Charts</title>
+</head>
+<body>
+
+<div id="contents">
+    <!--<div id="load"></div>-->
+    <div id="map">
+        <grid_tile>
+            <div id="container"></div>
+        </grid_tile>
+    </div>
+</div>
+
+<script>
+
+
+    //produce the map
+    let map = myMap.produce({
+        attribute_id: 'map',
+        lat: 51.5074, lon: 0.1278,
+        zoom: 10,
+
+    });
+
+    //tile map server
+    let tile1 = myTile.makeLayer({
+        name: 'OpenStreetMap',
+        link: 'http://openstreetmap.org',
+        server_url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        maxZoom: 18
+    });
+
+    tile1.addTo(map); // leaflet api to add tile layer to map
+
+    //map
+    let menu = L.control({position: 'topleft'});
+    menu.onAdd = function (map) {
+        let div = L.DomUtil.create('div', 'menu');
+        div.innerHTML = '<button onclick="myFunction()" class="menubutton">Examples</button>' +
+            '<div id="myMenu" class="menu-content">' +
+            '<a href="/L.dynamicGrids/examples">Sample Dynamic Grid</a>' +
+            '<a href="/L.dynamicGrids/examples/sampleCluster.html">Sample Cluster Markers</a>' +
+            '<a href="/L.dynamicGrids/examples/circles.html">Circles on Map</a>' +
+            '<a href="/L.dynamicGrids/examples/choropleth.html">Choropleth Map</a>' +
+            '<a href="/L.dynamicGrids/examples/noClusterDonuts.html">No Cluster Donuts</a>' +
+            '<a href="/L.dynamicGrids/examples/clusterPies.html">Cluster Pie Charts</a>' +
+            '<a href="/L.dynamicGrids/examples/dynamicGridPies.html">DynamicGrid Pie Charts</a>' +
+            '<a href="/L.dynamicGrids/examples/dgcWithLdnBorder.html">DynamicGrid Pies With London Area Border</a>' +
+            '</div>';
+        return div;
+    };
+    menu.addTo(map);
+
+    //add svg
+    let svgLayer = mySVG.makeLayer(); //
+    map.addLayer(svgLayer);
+
+    //select svg
+    let g = mySVG.selectLayer({
+        attribute_id: '#map',
+        layer: 'svg',
+        new_attribute: 'g'
+    });
+
+    //color choice d3 API function
+    const color = d3.schemeCategory10;
+
+    //load the data
+    d3.csv("new_data.csv").then(function (data) {
+
+
+        var markers = L.markerClusterGroup({
+            chunkedLoading: true,           //load by chunk set true
+            maxClusterRadius: 160,          //cluster radius size
+            iconCreateFunction: createClusterIcon,  //create custom icon for clustering method
+        });
+
+        //create pie from this function
+        function createClusterIcon(cluster) {
+
+            let strokeWidth = 1, //Set clusterpie stroke width
+                w = 55,
+                h = 55,
+                r = w / 2,
+                strokeW = 1,
+                position = (r + strokeWidth) * 2, // for pie position
+                obj_markers = cluster.getAllChildMarkers(), //get the object data back from cluster JS API
+
+                dataCollection = d3.nest() //Build a dataset for the pie chart by mapping object key and value
+                    .key(function (d) {
+                        return d.options.title
+                    })
+                    .entries(obj_markers, d3.map);
+
+            let avgDataSet = averageData(dataCollection, data); //find average
+
+            // console.log(avgDataSet); check average data
+
+            let html_data = createPie({ //this will return html svg glyph or icon
+                strokeW: strokeW,
+                dataCol: dataCollection,
+                dataset: avgDataSet,
+                w: w,
+                h: h,
+                pieClass: 'clusterPie',
+            });
+
+
+            //Create a new divIcon and assign the svg markup to the html property
+            myIcon = new L.DivIcon({
+                html: html_data,
+                className: 'myPieIcon',
+                iconSize: new L.Point(position, position)
+            });
+            return myIcon;
+        }
+
+        let markerList = [];
+
+        data.forEach(function (d) {
+
+            // let title = d.OA;
+            d.LatLng = new L.LatLng(d.lat, d.lon);
+
+            let xMarkers = getMarker(d);
+
+        });
+
+        //set for individual marker
+        function getMarker(d){
+            let customIcon = L.icon({
+                iconUrl: 'pin.svg',     // beautiful icon is from Smashicon https://www.flaticon.com/authors/smashicons
+                iconSize:     [50, 80], // size of the icon
+                shadowSize:   [40, 60], // size of the shadow
+                iconAnchor:   [20, 85], // point of the icon which will correspond to marker's location
+                shadowAnchor: [3, 55],  // the same for the shadow
+                popupAnchor:  [-2, -70] // point from which the popup should open relative to the iconAnchor
+            });
+
+            //set markers
+            let marker = L.marker(d.LatLng, {
+                icon: customIcon,
+                title: d.OA,
+                achieve: d
+            }).bindPopup(            //bind the data to show info when clicking on marker
+                '<strong>Total Population: '+d.Total_Population+'</strong><br>' +
+                '<strong>Total Households: '+d.Total_Households+'</strong><br>' +
+                '<strong>Total Dwellings: '+d.Total_Dwellings+'</strong><br>' +
+                '<strong>Total Household Spaces: '+d.Total_Household_Spaces+'</strong><br>' +
+                '<strong>Total Population 16 and over: '+d.Total_Population_16_and_over+'</strong><br>' +
+                '<strong>Total Popilation 16 to 74: '+d.Total_Population_16_to_74+'</strong><br>'
+            ).openPopup();
+
+
+
+            markerList.push(marker);
+        }
+
+        markers.addLayers(markerList);
+        map.addLayer(markers);
+
+    });
+
+    //average function
+    function averageData(dataset, data) {
+
+        let totalPopulation = [],
+            totalHouseHolads = [],
+            totalDwellings = [],
+            totalHouseSpace = [],
+            totalPo16andover = [],
+            totalPo16to74 = [];
+
+        if(dataset.length>1){
+
+            const obj_key = dataset.map(element => element.key); //get key
+
+            obj_key.forEach(function (d) {
+
+                const e = data.find(element => element.OA === d); //find matching data from dataset
+
+                totalPopulation.push(parseInt(e.Total_Population)); //convert to int because of object return string
+                totalHouseHolads.push(parseInt(e.Total_Households));
+                totalDwellings.push(parseInt(e.Total_Dwellings));
+                totalHouseSpace.push(parseInt(e.Total_Household_Spaces));
+                totalPo16andover.push(parseInt(e.Total_Population_16_and_over));
+                totalPo16to74.push(parseInt(e.Total_Population_16_to_74));
+
+
+            });
+        }
+
+
+        const arrAvg = arr => parseInt(arr.reduce((a, b) => a + b, 0) / arr.length);
+        //formula for average
+
+        //application of average calculation
+        const avgPopulation = arrAvg(totalPopulation);
+        const avgHouseHolad = arrAvg(totalHouseHolads);
+        const avgDwellings = arrAvg(totalDwellings);
+        const avgHousSpace = arrAvg(totalHouseSpace);
+        const avgtotalPo16andover = arrAvg(totalPo16andover);
+        const avgtotalPo16to74 = arrAvg(totalPo16to74);
+
+        // console.log("Object Marker:"+ obj_markers); testing !
+
+        return [avgPopulation, avgHouseHolad, avgDwellings, avgHousSpace, avgtotalPo16andover, avgtotalPo16to74];
+
+    }
+
+    //add description
+    let description = L.control({position: 'bottomright'});
+
+    description.onAdd = function (map) {
+
+        let div = L.DomUtil.create('div', 'data_description');
+
+        div.innerHTML += '<h5>Bar Chart Description</h5>'+
+
+            '<i style="background:' + color[ 1] + '"></i>Total Population <br>'+
+            '<i style="background:' + color[ 2] + '"></i>Total Households <br>'+
+            '<i style="background:' + color[ 3] + '"></i>Total Dwellings  <br>'+
+            '<i style="background:' + color[ 4] + '"></i>Total Household Spaces <br>' +
+            '<i style="background:' + color[ 5] + '"></i>Total Total Population 16 and over <br>' +
+            '<i style="background:' + color[ 6] + '"></i>Total Population 16 to 74<br>';
+
+        return div;
+    };
+
+    description.addTo(map);
+
+    //control layer
+    L.control.layers({"OSM": tile1}, {
+        "Leaflet Grid": OriginalGrid(),
+    }).addTo(map);
+
+
+</script>
+
+</body>
+</html>
