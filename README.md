@@ -6,7 +6,7 @@ This visualization idea is based on Dr. Aidan Slingsby's work, who is a research
 
 ## Get Started 
 
-First, you must have leaflet installed and produced the map. Just go to leaflet documentation website and learn how to project a web map. 
+First, you must have leaflet installed and produced the map. Just go to [leaflet documentation website](https://leafletjs.com/index.html) and learn how to project a web map. 
 
 Example of producing a map,
 ```
