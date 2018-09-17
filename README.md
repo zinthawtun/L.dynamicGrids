@@ -65,7 +65,7 @@ Currently, I am using a free beautiful icon is from [Smashicon](https://www.flat
 
 ##Examples 
 
-Here is the link that I have made examples for usage of my L.dynamicGrid, D3js and Leaflet marker-cluster library plugin.
+Here is the [link](http://www.student.city.ac.uk/~acvt664/L.dynamicGrids/examples/) that I have made examples for usage of my L.dynamicGrid, D3js and Leaflet marker-cluster library plugin.
 
 ## Acknowledge
 
