@@ -65,9 +65,9 @@ Currently, I am using a free beautiful icon is from [Smashicon](https://www.flat
 
 ## Examples 
 
-Here is the [link](http://www.student.city.ac.uk/~acvt664/L.dynamicGrids/examples/) that I have made examples for usage of my L.dynamicGrid, D3js and Leaflet marker-cluster library plugin.
+Here is the [link](http://www.student.city.ac.uk/~acvt664/L.dynamicGrids/examples/) that I have made examples for usage of my L.dynamicGrid, D3js and Leaflet marker-cluster library plugin. The souruce codes for examples are also provided for those who would like to learn to build map data visualisation from leaflet and d3. 
 
-##Reading the different types of files and Visualization 
+## Reading the different types of files and Visualization 
 
 You can use D3 to make different custom glyphs on the map. You can use proj4Leaflet for different coordinate reference systems. 
 
