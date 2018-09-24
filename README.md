@@ -1,7 +1,7 @@
 # L.dynamicGrids 
 ### version 0.1.0
 
-This a plug-in support library extended from Leaflet (https://leafletjs.com) producing dynamic grids to display data with custom glyphs on a map.
+This a plug-in is extended from Leaflet class (https://leafletjs.com) producing dynamic grids to display data with custom glyphs on a map.
 This visualization idea is based on Dr. Aidan Slingsby's work, who is a researcher and lecturer in the giCentre at the City University of London.
 
 ## Get Started 
