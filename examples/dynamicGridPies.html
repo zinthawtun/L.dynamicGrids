@@ -21,8 +21,6 @@
 
     <script src="menu.js"></script>
 
-    <script src="DataConnect/dataConnect.js"></script>
-
     <script src="src/customGlyphs.js"></script>
 
     <script src="src/L.dynamicGrid.js"></script>
@@ -91,13 +89,6 @@
     //add an svg layer
     let svgLayer = mySVG.makeLayer(); //
     map.addLayer(svgLayer);
-
-    //select svg layer
-    let g = mySVG.selectLayer({
-        attribute_id: '#map',
-        layer: 'svg',
-        new_attribute: 'g'
-    });
 
     //select color
     const color = d3.schemeCategory10;
