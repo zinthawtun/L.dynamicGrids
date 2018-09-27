@@ -111,12 +111,12 @@ DynamicGrid = L.DynamicGrid = L.FeatureGroup.extend({
 
     },
 
-    //set the rows and colum by grid size
+    //getting the row and column size, map size is divided by the grid size
 
     _setRow_Column: function(){
 
-        this._rows = Math.ceil(this._map.getSize().x / this._gridSize);
-        this._cols = Math.ceil(this._map.getSize().y / this._gridSize);
+        this._rowSize = Math.ceil(this._map.getSize().x / this._gridSize);
+        this._colSize = Math.ceil(this._map.getSize().y / this._gridSize);
 
     },
 
@@ -129,8 +129,8 @@ DynamicGrid = L.DynamicGrid = L.FeatureGroup.extend({
         let RowSet = Math.round(setX / this._gridSize);
         let ColSet = Math.round(setY / this._gridSize);
         let cells = [];
-        for (let i = 0; i <= this._rows; ++i) {             //calculate row id and col id
-            for (let j = 0; j <= this._cols; ++j) {
+        for (let i = 0; i <= this._rowSize; ++i) {             //calculate row id and col id
+            for (let j = 0; j <= this._colSize; ++j) {
                 let row = i-RowSet;
                 let col = j-ColSet;
                 let cellBounds = this._gridCellArea(row, col);
@@ -143,8 +143,6 @@ DynamicGrid = L.DynamicGrid = L.FeatureGroup.extend({
                     bounds: cellBounds,
                     centroid: Centroid
                 });
-
-                console.log(cellId);
 
             }
 
