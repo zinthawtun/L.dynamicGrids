@@ -67,7 +67,7 @@ DynamicGrid = L.DynamicGrid = L.FeatureGroup.extend({
         this._originalB = this._map.project(bounds.getNorthWest()); //to start from left corner
         this._gridSize = this.options.gridSize;
         this._setRow_Column();
-        this._loadedCells = [];
+        this._loadedGridCells = [];
         this.clearLayers();
         this._produceGridCells(bounds);
         this._produceGlyphs(bounds, markers);
@@ -79,11 +79,13 @@ DynamicGrid = L.DynamicGrid = L.FeatureGroup.extend({
         this.fire("newGridCells", cells);
         for (let i = cells.length - 1; i >= 0; i--) {
             let cell = cells[i];
-            if(this._loadedCells.indexOf(cell.id) === -1){
-                (function(cell, i){                             //produce the rectangle grids
-                    setTimeout(this.addLayer.bind(this, L.rectangle(cell.bounds, this.options.style)), this.options.delayRate*i);
+            if(this._loadedGridCells.indexOf(cell.id) === -1){
+                (function(cell, i){
+                    //produce the rectangle grids
+                    setTimeout(this.addLayer.bind(this, L.rectangle(cell.bounds, this.options.style)),
+                        this.options.delayRate*i);
                 }.bind(this))(cell, i);
-                this._loadedCells.push(cell.id);
+                this._loadedGridCells.push(cell.id);
             }
         };
 
@@ -104,38 +106,34 @@ DynamicGrid = L.DynamicGrid = L.FeatureGroup.extend({
                             MarkerInfo.push(d);
                         }
                     });
-                    setTimeout(this.addLayer.bind(this, L.marker(c_Markers.position, {icon: this.createIcon(MarkerInfo)})), this.options.delayRate*i);
+                    setTimeout(this.addLayer.bind(this, L.marker(c_Markers.position, {icon: this._createIcon(MarkerInfo)})),
+                        this.options.delayRate*i);
                 }.bind(this))(c_Markers, i);
             }
 
 
     },
 
-    //getting the row and column size, map size is divided by the grid size
+    //getting the row and column size, map size of x and y coordinates are divided by the grid size
 
     _setRow_Column: function(){
 
+        //width is divided by gridsize
         this._rowSize = Math.ceil(this._map.getSize().x / this._gridSize);
+        //height is divided by gridsize
         this._colSize = Math.ceil(this._map.getSize().y / this._gridSize);
 
     },
 
-    //grid cells data
-
-    _cellBoundary: function(bounds){
-        let boundSet = this._map.project(bounds.getNorthWest()); //from left corner
-        let setX = this._originalB.x - boundSet.x;
-        let setY = this._originalB.y - boundSet.y;
-        let RowSet = Math.round(setX / this._gridSize);
-        let ColSet = Math.round(setY / this._gridSize);
+    _cellBoundary: function(){
         let cells = [];
         for (let i = 0; i <= this._rowSize; ++i) {             //calculate row id and col id
             for (let j = 0; j <= this._colSize; ++j) {
-                let row = i-RowSet;
-                let col = j-ColSet;
-                let cellBounds = this._gridCellArea(row, col);
-                let cellId = row+":"+col;
-                let Centroid = cellBounds.getCenter();
+                let row = i,
+                    col = j,
+                    cellBounds = this._gridCellArea(row, col),  //for each cell boundary of grid
+                    cellId = row+":"+col,
+                    Centroid = cellBounds.getCenter();
 
 
                 cells.push({
@@ -144,6 +142,8 @@ DynamicGrid = L.DynamicGrid = L.FeatureGroup.extend({
                     centroid: Centroid
                 });
 
+                console.log(cellBounds);
+
             }
 
         }
@@ -151,7 +151,6 @@ DynamicGrid = L.DynamicGrid = L.FeatureGroup.extend({
     },
 
     //to add the grid cells of rows and column by adding coordinate points from the left corner
-
     _setPoints:function(row, col){
         let x = this._originalB.x + (row*this._gridSize);
         let y = this._originalB.y + (col*this._gridSize);
@@ -233,7 +232,7 @@ DynamicGrid = L.DynamicGrid = L.FeatureGroup.extend({
 DynamicGrid.include({
 
 
-    createIcon: function(markerInfo){
+    _createIcon: function(markerInfo){
 
         let Icon;
 

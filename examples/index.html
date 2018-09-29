@@ -1,4 +1,4 @@
-<!--learned from leaflet virtual grid and cluster markers from leaflet plugins-->
+<!--learned from leaflet virtual grid and cluster dGrids from leaflet plugins-->
 <!doctype html>
 <html lang="en">
 <head>
@@ -69,7 +69,7 @@
         div.innerHTML = '<button onclick="myFunction()" class="menubutton">Examples</button>' +
             '<div id="myMenu" class="menu-content">' +
             '<a href="../L.dynamicGrids/examples/">Sample Dynamic Grid</a>' +
-            '<a href="../L.dynamicGrids/examples/sampleCluster.html">Sample Cluster Markers</a>' +
+            '<a href="../L.dynamicGrids/examples/sampleCluster.html">Sample Cluster dGrids</a>' +
             '<a href="../L.dynamicGrids/examples/circles.html">Circles on Map</a>' +
             '<a href="../L.dynamicGrids/examples/choropleth.html">Choropleth Map</a>' +
             '<a href="../L.dynamicGrids/examples/noClusterDonuts.html">No Cluster Donuts</a>' +
@@ -104,8 +104,7 @@
     //load data
     d3.csv("london_demographics.csv").then(function (data) {
 
-
-        let markerList = [];  //to put markers into array
+        let markerList = [];  //to put dGrids into array
 
         data.forEach(function (d) {
 
@@ -122,18 +121,13 @@
             markerList.push(marker);
 
         }
-
-
         //Call dynamic grid API
-        let markers = L.dynamicGrid({
+        let dGrids = L.dynamicGrid({
             gridSize: 80,
             M_data: markerList,
         }).addTo(map);
 
-        markers.addGrid(); //this will make the first grid on the screen
-
-
-
+        dGrids.addGrid(); //this will make the first grid on the screen
 
     });
 

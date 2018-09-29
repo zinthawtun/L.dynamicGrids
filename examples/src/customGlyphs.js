@@ -151,7 +151,7 @@ const myGlyphs = (function () {
 })();
 
 function createPie(e) {
-    let dataCol = e.dataCol,
+    let dataCol = e.dataCol,x
         strokeW = e.strokeW ? e.strokeW : 1,
         dataset = e.dataset,
         w = e.w ? e.w : 50,
@@ -199,14 +199,14 @@ function createPie(e) {
             return color[i + 1];
         });
 
-    return serializeXmlNode(svg);
+    return xmlNode(svg);
 
 }
 
 /*Helper function*/
-function serializeXmlNode(xmlNode) {
+function xmlNode(node) {
     if (typeof window.XMLSerializer !== "undefined") {
-        return (new window.XMLSerializer()).serializeToString(xmlNode);
+        return (new window.XMLSerializer()).serializeToString(node);
     } else if (typeof xmlNode.xml !== "undefined") {
         return xmlNode.xml;
     }
