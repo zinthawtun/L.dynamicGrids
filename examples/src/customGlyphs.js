@@ -2,12 +2,6 @@
 const myMap = (function () {
 
     // variable object style
-    const varMap = {
-        attribute_id: this.attribute_id,
-        lat: this.lat, lon: this.lon,
-        zoom: this.zoom
-    }
-
     function Produce(varMap) {
         return new L.Map(varMap.attribute_id, {center: [varMap.lat, varMap.lon], zoom: varMap.zoom});
     }
@@ -58,8 +52,6 @@ const myTile = (function () {
 
 //adding SVG layer
 const mySVG = (function () {
-
-    const items = {attribute_id: this.attribute_id, layer: this.layer, new_attribute: this.new_attribute};
 
     function add_svg() {
         return L.svg();
@@ -132,7 +124,7 @@ const myGlyphs = (function () {
 
 
         function add(item) {
-            return ;
+
         }
 
 
@@ -151,7 +143,7 @@ const myGlyphs = (function () {
 })();
 
 function createPie(e) {
-    let dataCol = e.dataCol,x
+    let dataCol = e.dataCol,
         strokeW = e.strokeW ? e.strokeW : 1,
         dataset = e.dataset,
         w = e.w ? e.w : 50,
@@ -213,7 +205,3 @@ function xmlNode(node) {
     return "";
 }
 
-
-// import dynamicgrid from './dynamicGrid';
-//
-// let L.dynamicgrid() = dynamicgrid;

@@ -41,9 +41,6 @@
 </div>
 
 <script>
-
-
-
     //produce the map
     let map = myMap.produce({
         attribute_id: 'map',
@@ -61,7 +58,6 @@
     });
 
     tile1.addTo(map); // leaflet api to add tile layer to map
-
     //map
     let menu = L.control({position: 'topleft'});
     menu.onAdd = function (map) {
@@ -80,8 +76,6 @@
         return div;
     };
     menu.addTo(map);
-
-
     //leaflet grid
     OriginalGrid = function (opts) {
         return new LeafletGrid(opts);
